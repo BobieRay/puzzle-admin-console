@@ -11,9 +11,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->id();                                // idカラム
-            $table->string('name', 20);     // nameカラム(20文字)
-            $table->timestamps();                        // created_at, updated_at
+            $table->id();                                   // idカラム
+            $table->string('name', 20);       // nameカラム(20文字)
+            $table->string('password', 100);  // パスワードカラム(100文字)
+            $table->timestamps();                           // created_at, updated_at
 
             //$table->index('name');            // nameにインデックス設定
             $table->unique('name');     // nameにユニーク制約設定

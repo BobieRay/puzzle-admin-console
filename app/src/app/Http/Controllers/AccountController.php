@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
 use Barryvdh\Debugbar\Facades\Debugbar;
 use Illuminate\Http\Request;
 
@@ -10,18 +11,8 @@ class AccountController extends Controller
     // アカウント一覧を表示する
     public function index(Request $request)
     {
-        $title = 'アカウント一覧';
-
-        $data = [
-            [
-                'name' => 'しょうきさん',
-                'password' => 'abc',
-            ],
-            [
-                'name' => 'jobi',
-                'password' => '$9$s#2kdie',
-            ]
-        ];
+        $accounts = Account::All();
+        return view('accounts/index', ['accounts' => $accounts]);
 
         // セッションに指定のキーで値を保存
         $request->session()->put('shoki', 1);
@@ -44,30 +35,7 @@ class AccountController extends Controller
         //Debugbar::info('おはようござぁいます');
         //Debugbar::error('エラーでごわすよ');
 
-        return view('accounts/index', ['title' => $title, 'accounts' => $data]);  // ビューに変数を渡す
-    }
-
-    // ログイン画面を表示する
-    public function login(Request $request)
-    {
-        return view('login');
-    }
-
-    // ログイン処理
-    public function dologin(Request $request)
-    {
-        // 名前がjobi かつ パスワードがjobi だった場合アカウント一覧表示にリダイレクト
-        if ($request['name'] === 'jobi' && $request['password'] === 'jobi') {
-            return redirect('accounts/index');
-        } else {
-            return view('dologin');
-        }
-    }
-
-    // ログアウト処理
-    public function dologout(Request $request)
-    {
-        return redirect('accounts/login');
+        //return view('accounts/index', ['title' => $title, 'accounts' => $data]);  // ビューに変数を渡す
     }
 }
 
